@@ -31,7 +31,7 @@ HidDevice::~HidDevice()
   _nbInstance -= 1;
 }
 
-void HidDevice::sendFeatureReport(const HidDevice::Buffer& buff)
+void HidDevice::sendFeatureReport(const HidDevice::Buffer& buff) const
 {
   int ret;
 

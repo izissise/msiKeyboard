@@ -22,7 +22,7 @@ public:
   HidDevice(uint16_t vendor_id, uint16_t product_id);
   virtual ~HidDevice();
 
-  void sendFeatureReport(const HidDevice::Buffer& buff);
+  void sendFeatureReport(const HidDevice::Buffer& buff) const;
 
 private:
   hid_device* _handle;

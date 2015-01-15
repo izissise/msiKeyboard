@@ -31,7 +31,7 @@ public:
     HIGH = 0,
   };
 
-  enum 	Modes {
+  enum Modes {
     NORMAL = 1,
     GAMING = 2,
     BREATHE = 3,
@@ -42,6 +42,9 @@ public:
 public:
   MsiKeyboard(uint16_t vendor_id, uint16_t product_id);
   virtual ~MsiKeyboard() = default;
+
+  void setAttribute(MsiKeyboard::Regions r, MsiKeyboard::Colors cl,
+					MsiKeyboard::Levels l, MsiKeyboard::Modes m);
 
 protected:
   HidDevice  _device;
