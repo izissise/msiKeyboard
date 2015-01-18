@@ -13,11 +13,12 @@ HidDevice::HidDevice(uint16_t vendor_id, uint16_t product_id)
         throw std::runtime_error("Error: Can't init HID lib");
     }
 
-  _handle = hid_open(_vendor_id, _product_id, NULL);
+  if ((_handle = hid_open(_vendor_id, _product_id, NULL)) == nullptr)
+    _handle = hid_open(_vendor_id, _product_id, NULL);
   if (_handle == nullptr)
-  {
-    throw std::runtime_error(std::string("Error: Can't open HID Device: ") + std::to_string(vendor_id) + " " + std::to_string(product_id));
-  }
+    {
+      throw std::runtime_error(std::string("Error: Can't open HID Device: ") + std::to_string(vendor_id) + " " + std::to_string(product_id));
+    }
 }
 
 HidDevice::~HidDevice()

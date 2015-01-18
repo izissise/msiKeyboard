@@ -10,25 +10,10 @@ public:
     LEFT = 1,
     MIDDLE = 2,
     RIGHT = 3,
-  };
-
-  enum Colors {
-    OFF = 0,
-    RED = 1,
-    ORANGE = 2,
-    YELLOW = 3,
-    GREEN = 4,
-    SKY = 5,
-    BLUE = 6,
-    PURPLE = 7,
-    WHITE = 8,
-  };
-
-  enum Levels {
-    LIGHT = 3,
-    LOW = 2,
-    MED = 1,
-    HIGH = 0,
+    LOGO = 4,
+    FRONTRIGHT = 5,
+    FRONTLEFT = 6,
+    MOUSE = 7,
   };
 
   enum Modes {
@@ -43,8 +28,8 @@ public:
   MsiKeyboard(uint16_t vendor_id, uint16_t product_id);
   virtual ~MsiKeyboard() = default;
 
-  void setAttribute(MsiKeyboard::Regions r, MsiKeyboard::Colors cl,
-					MsiKeyboard::Levels l, MsiKeyboard::Modes m);
+  void setColor(MsiKeyboard::Regions region,
+                    uint8_t r, uint8_t g, uint8_t b, MsiKeyboard::Modes m);
 
 protected:
   HidDevice  _device;
