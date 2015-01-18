@@ -6,23 +6,38 @@
 #include <chrono>
 
 #include "MsiKeyboard.hpp"
+#include "ColorUnifier.hpp"
 
-int main([[gnu::unused]]int ac, [[gnu::unused]]char *avp[])
+int main([[gnu::unused]]int ac, char *avp[])
 {
-  MsiKeyboard kb(0x1770, 0xff00);
+  bool daemon = ((avp[1] != nullptr) && (std::string(avp[1]) == "-d"));
+  bool first = true;
 
-  std::string lign;
-  while (std::getline(std::cin, lign))
+  while (daemon || first)
     {
-      std::stringstream ss(lign);
-      double dr, dg, db;
+      first = false;
+      MsiKeyboard kb(0x1770, 0xff00);
+      ColorUnifier cl;
 
-      ss >> dr >> dg >> db;
-      for (auto && i : {MsiKeyboard::Regions::LEFT, MsiKeyboard::Regions::MIDDLE, MsiKeyboard::Regions::RIGHT})
+      std::string lign;
+      while (std::getline(std::cin, lign))
         {
-          kb.setColor(i, dr * 255, dg * 255, db * 255, MsiKeyboard::Modes::NORMAL);
+          std::stringstream ss(lign);
+          double dr, dg, db;
+          ColorUnifier::Color color;
+
+          ss >> dr >> dg >> db;
+          color.r = dr * 255;
+          color.g = dg * 255;
+          color.b = db * 255;
+          cl.push_color(color);
+          color = cl.unifColor();
+          if (cl.isColorChanged())
+            for (auto && i : {MsiKeyboard::Regions::LEFT, MsiKeyboard::Regions::MIDDLE, MsiKeyboard::Regions::RIGHT})
+              {
+                kb.setColor(i, color.r, color.g, color.b, MsiKeyboard::Modes::NORMAL);
+              }
         }
     }
-
   return 0;
 }
